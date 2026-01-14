@@ -18,15 +18,29 @@ st.set_page_config(
 # -----------------------------------------------------------------------------
 st.markdown("""
     <style>
-    /* Reduce spacing between logo/title and the subtitle */
-    .stTitle {
-        margin-bottom: -15px !important;
-        padding-bottom: 0px !important;
+    /* Main background and font adjustments to match clean dashboard style */
+    .main {
+        background-color: #0e1117;
+        color: #ffffff;
     }
-    /* Move the columns container up if there is too much top margin */
-    [data-testid="stHorizontalBlock"] {
-        align-items: center;
-        margin-top: -20px;
+    h1, h2, h3 {
+        color: #ffffff;
+        font-family: 'Inter', sans-serif;
+    }
+    .stMetric {
+        background-color: #262730;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .stMetric label {
+        color: #b0b0b0 !important;
+    }
+    .stMetric div[data-testid="stMetricValue"] {
+        color: #00d4ff !important;
+    }
+    .block-container {
+        padding-top: 2rem;
     }
     </style>
     """, unsafe_allow_html=True)
