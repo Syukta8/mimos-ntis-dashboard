@@ -19,10 +19,9 @@ st.set_page_config(
 st.markdown("""
     <style>
     /* Main background and font adjustments to match clean dashboard style */
-    .main {
-        background-color: #0e1117;
-        color: #ffffff;
-    }
+    .main { background-color: #0e1117; color: #ffffff; }
+    h1 { margin-top: -20px; padding-bottom: 10px; }
+    .stMetric { background-color: #262730; padding: 15px; border-radius: 10px; }
     h1, h2, h3 {
         color: #ffffff;
         font-family: 'Inter', sans-serif;
@@ -48,19 +47,15 @@ st.markdown("""
 # -----------------------------------------------------------------------------
 # Header
 # -----------------------------------------------------------------------------
-col_logo, col_text = st.columns([0.5, 5], vertical_alignment="center")
-with col_logo:
-    # ⚠️ REPLACE THIS URL with your local file path (e.g., "logo.png")
-    # or a direct link to the MIMOS logo.
-    logo_url = "./images/MIMOS_(Malaysian)_Logo.png" 
-    
-    try:
-        st.image(logo_url, width=60)
-    except:
-        st.warning("Logo not found")
+col1, col2 = st.columns([0.15, 3.5], vertical_alignment="center")
 
-with col_text:
-    st.title("MIMOS NTIS Dashboard")
+with col1:
+    # Use a small width to match your screenshot
+    st.image("images/MIMOS_(Malaysian)_Logo.png", width=50) 
+
+with col2:
+    # Use markdown to remove default top padding for a tighter fit
+    st.markdown("<h1 style='margin:0;'>MIMOS NTIS Dashboard</h1>", unsafe_allow_html=True)
 st.markdown("### Data Insights & Application Overview")
 st.markdown("---")
 
