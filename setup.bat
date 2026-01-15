@@ -20,7 +20,7 @@ IF %ERRORLEVEL% NEQ 0 (
 
 REM Step 3: Install core packages
 echo Installing core Python packages via pip
-pip install streamlit pandas plotly
+pip install streamlit pandas plotly st-gsheets-connection
 IF %ERRORLEVEL% NEQ 0 (
     echo ERROR: Failed to install.
     pause

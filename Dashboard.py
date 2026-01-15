@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from streamlit_gsheets import GSheetsConnection
 
 # -----------------------------------------------------------------------------
 # Page Configuration
@@ -45,6 +46,17 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
+# Google Sheet Connection
+# -----------------------------------------------------------------------------
+conn = st.connection("gsheets", type=GSheetsConnection)
+# 2. Read the data (caching it for 10 minutes to keep it fast)
+df_companyinfo = conn.read(
+    spreadsheet="https://docs.google.com/spreadsheets/d/158xwT4WebHdYTn8TsdKOvkzdy_BkbwFXUyfJDKDxDCI/edit?usp=sharing", # <--- Replace with your actual Google Sheet URL
+    ttl="10m",
+    header=1)
+total_applicants = df_companyinfo['Company'].count()
+
+# -----------------------------------------------------------------------------
 # Header
 # -----------------------------------------------------------------------------
 col1, col2 = st.columns([0.15, 3.5], vertical_alignment="center")
@@ -68,7 +80,7 @@ st.subheader("📌 Overall Performance (Cohorts 1-60)")
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric(label="Total NTIS Applicants", value="668")
+    st.metric(label="Total NTIS Applicants", value=total_applicants)
 
 with col2:
     st.metric(label="MIMOS Funnel", value="502")
@@ -122,19 +134,22 @@ tab1, tab2 = st.tabs(["📈 Trend Analysis", "🗓️ Yearly Breakdown"])
 
 with tab1:
     # Line Chart for Trend
-    fig_trend = go.Figure()
-    fig_trend.add_trace(go.Scatter(x=df['Year'], y=df['Applicants'], mode='lines+markers', name='Applicants', line=dict(color='#00d4ff', width=3)))
-    fig_trend.add_trace(go.Scatter(x=df['Year'], y=df['Reviewed'], mode='lines+markers', name='Reviewed', line=dict(color='#ff4b4b', width=3)))
+    # fig_trend = go.Figure()
+    # fig_trend.add_trace(go.Scatter(x=df['Year'], y=df['Applicants'], mode='lines+markers', name='Applicants', line=dict(color='#00d4ff', width=3)))
+    # fig_trend.add_trace(go.Scatter(x=df['Year'], y=df['Reviewed'], mode='lines+markers', name='Reviewed', line=dict(color='#ff4b4b', width=3)))
     
-    fig_trend.update_layout(
-        title="Applicant vs Review Trend (2021-2025)",
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
-        font=dict(color='white'),
-        xaxis=dict(showgrid=False),
-        yaxis=dict(showgrid=True, gridcolor='#444')
-    )
-    st.plotly_chart(fig_trend, use_container_width=True)
+    # fig_trend.update_layout(
+    #     title="Applicant vs Review Trend (2021-2025)",
+    #     plot_bgcolor='rgba(0,0,0,0)',
+    #     paper_bgcolor='rgba(0,0,0,0)',
+    #     font=dict(color='white'),
+    #     xaxis=dict(showgrid=False),
+    #     yaxis=dict(showgrid=True, gridcolor='#444')
+    # )
+    st.markdown("### Total Applications Trend (Cohorts 1-60)")
+    chart_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSzgAXZo_2wvNQB6NxvCMAdEHX7QAgq32SnKqHTxM1CaYo6Rnx-y61t1Dbp-HGrug/pubchart?oid=661037834&format=interactive"
+    st.components.v1.iframe(chart_url, height=500, scrolling=True)
+    st.info("💡 Tip: Hover over the bars and line points in the chart above to see specific application counts for each Cohort.")
 
 with tab2:
     # Bar Chart for Breakdown
